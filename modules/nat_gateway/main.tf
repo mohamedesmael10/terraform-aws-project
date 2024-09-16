@@ -1,4 +1,4 @@
-resource "aws_eip" "this" {
+resource "aws_eip" "nat" {
   domain = "vpc"
 
   tags = {
@@ -6,8 +6,8 @@ resource "aws_eip" "this" {
   }
 }
 
-resource "aws_nat_gateway" "this" {
-  allocation_id = aws_eip.this.id
+resource "aws_nat_gateway" "nat" {
+  allocation_id = aws_eip.nat.id
   subnet_id     = var.public_subnet_id
 
   tags = {

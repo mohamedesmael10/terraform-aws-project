@@ -13,3 +13,4 @@ crash.log
 .infracost/
 .infracost*
 key-pair.pem
+*.pem

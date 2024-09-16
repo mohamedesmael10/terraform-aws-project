@@ -15,6 +15,6 @@ output "private_route_table_id" {
 
 output "nat_gateway_id" {
   description = "The ID of the NAT Gateway."
-  value       = module.nat_gateway.nat_gateway_id
+  value       = module.nat_gateway.nat_gw_id
 }
 
