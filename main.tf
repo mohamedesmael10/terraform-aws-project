@@ -134,16 +134,16 @@ module "load_balancer" {
   target_group_name  = "my-target-group"
   target_group_port  = 80
   target_group_protocol = "HTTP"
-  vpc_id             = module.vpc.id
+  vpc_id             = module.vpc.vpc_id
   listener_port      = 80
   listener_protocol  = "HTTP"
   instance_count     = 2
-  instance_ids       = module.ec2_instances.instance_ids
+  instance_ids       = module.public_instances.instance_ids
 }
 
 
 module "key" {
   source       = "./modules/key_pair"
-  encrypt-kind = "RSA"
-  encrypt-bits = 4096
+  encrypt_kind = "RSA"
+  encrypt_bits = 4096
 }
