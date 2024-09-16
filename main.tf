@@ -95,57 +95,55 @@ module "nginx_security_group" {
   ingress_cidr_blocks = ["0.0.0.0/0"]
 }
 
-# Public Instances
-resource "aws_instance" "public_instance" {
-  count         = 2
-  ami           = var.ami_id
-  instance_type = var.instance_type
-  subnet_id     = element([module.public_subnet_1.subnet_id, module.public_subnet_2.subnet_id], count.index)
-  security_groups = [module.nginx_security_group.security_group_id]
-  key_name      = var.key_name
-
-  user_data = <<-EOF
-              #!/bin/bash
-              sudo apt update
-              sudo apt install -y nginx
-              sudo systemctl start nginx
-              sudo systemctl enable nginx
-              EOF
-
-  tags = {
-    Name = "${var.instance_name}-public-${count.index}"
-  }
+module "public_instances" {
+  source         = "./modules/instance"
+  instance_count = 2
+  ami_id          = var.ami_id
+  instance_type   = var.instance_type
+  subnet_ids      = [module.public_subnet_1.subnet_id, module.public_subnet_2.subnet_id]
+  security_group_ids = [module.nginx_security_group.security_group_id]
+  key_name        = var.key_name
+  user_data       = <<-EOF
+                    #!/bin/bash
+                    sudo apt update
+                    sudo apt install -y nginx
+                    sudo systemctl start nginx
+                    sudo systemctl enable nginx
+                    EOF
+  instance_name   = "public"
 }
 
-# Private Instances
-resource "aws_instance" "private_instance" {
-  count         = 2
-  ami           = var.ami_id
-  instance_type = var.instance_type
-  subnet_id     = element([module.private_subnet_1.subnet_id, module.private_subnet_2.subnet_id], count.index)
-  security_groups = [module.bastion_security_group.security_group_id]
-  key_name      = var.key_name
-
-  tags = {
-    Name = "${var.instance_name}-private-${count.index}"
-  }
+module "private_instances" {
+  source         = "./modules/instance"
+  instance_count = 2
+  ami_id          = var.ami_id
+  instance_type   = var.instance_type
+  subnet_ids      = [module.private_subnet_1.subnet_id, module.private_subnet_2.subnet_id]
+  security_group_ids = [module.bastion_security_group.security_group_id]
+  key_name        = var.key_name
+  user_data       = ""
+  instance_name   = "private"
 }
 
-# Load Balancer
-resource "aws_lb" "this" {
-  name               = var.lb_name
+module "load_balancer" {
+  source             = "./modules/load_balancer"
+  lb_name             = "my-load-balancer"
   internal           = false
-  load_balancer_type = "application"
-  subnets            = [module.public_subnet_1.subnet_id, module.public_subnet_2.subnet_id]
-  security_groups    = [module.nginx_security_group.security_group_id]
-
-  tags = {
-    Name = var.lb_name
-  }
+  subnet_ids         = [module.public_subnet_1.subnet_id, module.public_subnet_2.subnet_id]
+  security_group_ids = [module.nginx_security_group.security_group_id]
+  target_group_name  = "my-target-group"
+  target_group_port  = 80
+  target_group_protocol = "HTTP"
+  vpc_id             = module.vpc.id
+  listener_port      = 80
+  listener_protocol  = "HTTP"
+  instance_count     = 2
+  instance_ids       = module.ec2_instances.instance_ids
 }
+
 
 module "key" {
-  source       = "./keypair"
+  source       = "./modules/key_pair"
   encrypt-kind = "RSA"
   encrypt-bits = 4096
 }
