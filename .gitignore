@@ -12,3 +12,4 @@ terraform.rc
 crash.log
 .infracost/
 .infracost*
+key-pair.pem
