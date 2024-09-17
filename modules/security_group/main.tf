@@ -1,4 +1,4 @@
-resource "aws_security_group" "this" {
+resource "aws_security_group" "sg" {
   vpc_id = var.vpc_id
 
   ingress {

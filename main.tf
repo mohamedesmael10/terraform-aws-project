@@ -105,15 +105,10 @@ module "public_instances" {
   subnet_ids      = [module.public_subnet_1.subnet_id, module.public_subnet_2.subnet_id]
   security_group_ids = [module.nginx_security_group.security_group_id , module.bastion_security_group.security_group_id ]
   key_name        = var.key_name
-  user_data       = <<-EOF
-                    #!/bin/bash
-                    sudo apt update
-                    sudo apt install -y nginx
-                    sudo systemctl start nginx
-                    sudo systemctl enable nginx
-                    EOF
   instance_name   = "public"
+
 }
+
 
 module "private_instances" {
   source         = "./modules/instance"
@@ -124,7 +119,13 @@ module "private_instances" {
   subnet_ids      = [module.private_subnet_1.subnet_id, module.private_subnet_2.subnet_id]
   security_group_ids = [module.bastion_security_group.security_group_id , module.nginx_security_group.security_group_id ]
   key_name        = var.key_name
-  user_data       = ""
+  user_data       = <<-EOF
+                    #!/bin/bash
+                    sudo apt update
+                    sudo apt install -y nginx
+                    sudo systemctl start nginx
+                    sudo systemctl enable nginx
+                    EOF
   instance_name   = "private"
 }
 

@@ -21,6 +21,7 @@ resource "null_resource" "generate_key_file" {
 
   # Ensure that the null_resource runs after the key pair is created
   depends_on = [aws_key_pair.generated_key]
+
 }
 
 

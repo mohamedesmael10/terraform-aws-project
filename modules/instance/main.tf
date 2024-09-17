@@ -13,3 +13,29 @@ resource "aws_instance" "instance" {
     Name = "${var.instance_name}-${count.index}"
   }
 }
+resource "null_resource" "public_instance_provisioners" {
+  count = var.associate_public_ip_address ? var.instance_count : 0
+
+  connection {
+    type        = "ssh"
+    user        = "ubuntu"
+    private_key = file(var.key)
+    host        = aws_instance.instance[count.index].public_ip
+  }
+
+  provisioner "file" {
+   
+    source      = "./key-pair.pem"
+    destination = "/home/ubuntu/key-pair.pem"
+    
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod 400 /home/ubuntu/key-pair.pem"  # Ensure correct permissions
+    ]
+  }
+    depends_on = [aws_instance.instance]
+
+  }
+

@@ -4,3 +4,4 @@ instance_type = "t2.micro"
 instance_name = "Terraform"
 lb_name       = "my-load-balancer"
 key_name      = "key-pair" 
+
