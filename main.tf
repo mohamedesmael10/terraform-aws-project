@@ -80,7 +80,7 @@ module "nat_gateway" {
   source            = "./modules/nat_gateway"
   public_subnet_id  = module.public_subnet_1.subnet_id
   name              = "${var.project_name}-nat-gw"
-  depends_on        = [module.public_subnet_1, ]  
+  depends_on        = [module.public_subnet_1, module.public_subnet_2]  
 }
 
 # Security Groups
@@ -134,11 +134,13 @@ module "private_instances" {
                     #!/bin/bash
                     sudo apt update
                     sudo apt install -y nginx
+                    echo "Welcome to Esmael's private_instances "  > /var/www/html/index.html
                     sudo systemctl start nginx
                     sudo systemctl enable nginx
+                    sudo service nginx restart 
                     EOF
   instance_name   = "private"
-  depends_on      = [module.private_subnet_1, module.private_subnet_2, module.bastion_security_group, module.nginx_security_group]
+  depends_on      = [module.private_subnet_1, module.private_subnet_2, module.bastion_security_group, module.nginx_security_group , module.nat_gateway]
 }
 
 # Load Balancer
@@ -155,8 +157,8 @@ module "load_balancer" {
   listener_port      = 80
   listener_protocol  = "HTTP"
   instance_count     = 2
-  instance_ids       = module.public_instances.instance_ids
-  depends_on         = [module.public_subnet_1, module.public_subnet_2, module.nginx_security_group, module.public_instances]
+  instance_ids       = module.private_instances.instance_ids
+  depends_on         = [module.private_subnet_1, module.private_subnet_2, module.nginx_security_group, module.private_instances , module.public_subnet_1.subnet_id, module.public_subnet_2.subnet_id]
 }
 
 # Key Pair

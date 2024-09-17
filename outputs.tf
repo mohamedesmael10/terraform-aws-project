@@ -18,3 +18,4 @@ output "nat_gateway_id" {
   value       = module.nat_gateway.nat_gw_id
 }
 
+

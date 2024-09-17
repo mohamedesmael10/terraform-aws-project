@@ -53,3 +53,4 @@ variable "key" {
   type        = string
   default     = "./key-pair.pem"
 }
+
