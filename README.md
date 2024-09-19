@@ -105,3 +105,12 @@ This setup provides a highly secure, scalable, and efficient cloud environment. 
 ### Notes:
 - Follow security best practices such as strong passwords and proper access controls.
 - Customize the setup to meet your specific project requirements.
+
+## Shots
+![Screenshot 2](https://github.com/mohamedesmael10/terraform-aws-project/raw/main/Shots/2.png)
+![Screenshot 3](https://github.com/mohamedesmael10/terraform-aws-project/raw/main/Shots/3.png)
+![Screenshot 4](https://github.com/mohamedesmael10/terraform-aws-project/raw/main/Shots/4.png)
+![Screenshot 5](https://github.com/mohamedesmael10/terraform-aws-project/raw/main/Shots/5.png)
+![Screenshot 6](https://github.com/mohamedesmael10/terraform-aws-project/raw/main/Shots/6.png)
+![Screenshot 7](https://github.com/mohamedesmael10/terraform-aws-project/raw/main/Shots/7.png)
+![Screenshot 8](https://github.com/mohamedesmael10/terraform-aws-project/raw/main/Shots/8.png)
