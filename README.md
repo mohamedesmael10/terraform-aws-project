@@ -51,7 +51,8 @@ This project sets up a secure, scalable cloud infrastructure using AWS services.
 
 ## Architecture Diagram
 
-<!-- Include your architecture diagram here -->
+![Screenshot 1](https://github.com/mohamedesmael10/terraform-aws-project/raw/main/Shots/1.jpeg)
+
 The diagram represents the VPC with public and private subnets, EC2 instances, NAT Gateway, Bastion Host, and Load Balancer.
 
 ## How to Connect
