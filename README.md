@@ -98,6 +98,15 @@ The diagram represents the VPC with public and private subnets, EC2 instances, N
 ### 7. **Deploy the Infrastructure**
    - Run `terraform apply` to create the infrastructure on AWS.
 
+## Shots
+![Screenshot 2](https://github.com/mohamedesmael10/terraform-aws-project/raw/main/Shots/2.png)
+![Screenshot 3](https://github.com/mohamedesmael10/terraform-aws-project/raw/main/Shots/3.png)
+![Screenshot 4](https://github.com/mohamedesmael10/terraform-aws-project/raw/main/Shots/4.png)
+![Screenshot 5](https://github.com/mohamedesmael10/terraform-aws-project/raw/main/Shots/5.png)
+![Screenshot 6](https://github.com/mohamedesmael10/terraform-aws-project/raw/main/Shots/6.png)
+![Screenshot 7](https://github.com/mohamedesmael10/terraform-aws-project/raw/main/Shots/7.png)
+![Screenshot 8](https://github.com/mohamedesmael10/terraform-aws-project/raw/main/Shots/8.png)
+
 ## Conclusion
 
 This setup provides a highly secure, scalable, and efficient cloud environment. By leveraging AWS services such as EC2, VPC, NAT Gateway, and Load Balancer, the project ensures high availability and fault tolerance for web applications, while keeping sensitive instances protected in private subnets.

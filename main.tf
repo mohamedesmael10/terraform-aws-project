@@ -109,12 +109,12 @@ module "nginx_security_group" {
 # Public Instances
 module "public_instances" {
   source         = "./modules/instance"
-  instance_count = 2
+  instance_count = 1
   ami_id          = var.ami_id
   associate_public_ip_address = true
   instance_type   = var.instance_type
-  subnet_ids      = [module.public_subnet_1.subnet_id, module.public_subnet_2.subnet_id]
-  security_group_ids = [module.nginx_security_group.security_group_id , module.bastion_security_group.security_group_id ]
+  subnet_ids      = [module.public_subnet_1.subnet_id]
+  security_group_ids = [ module.bastion_security_group.security_group_id ]
   key_name        = var.key_name
   instance_name   = "public"
   depends_on      = [module.public_subnet_1, module.public_subnet_2, module.nginx_security_group, module.bastion_security_group]
@@ -128,7 +128,7 @@ module "private_instances" {
   ami_id          = var.ami_id
   instance_type   = var.instance_type
   subnet_ids      = [module.private_subnet_1.subnet_id, module.private_subnet_2.subnet_id]
-  security_group_ids = [module.bastion_security_group.security_group_id , module.nginx_security_group.security_group_id ]
+  security_group_ids = [ module.nginx_security_group.security_group_id , module.bastion_security_group.security_group_id]
   key_name        = var.key_name
   user_data       = <<-EOF
                     #!/bin/bash
@@ -149,7 +149,7 @@ module "load_balancer" {
   lb_name             = "my-load-balancer"
   internal           = false
   subnet_ids         = [module.public_subnet_1.subnet_id, module.public_subnet_2.subnet_id]
-  security_group_ids = [module.nginx_security_group.security_group_id , module.bastion_security_group.security_group_id ]
+  security_group_ids = [module.nginx_security_group.security_group_id   ]
   target_group_name  = "my-target-group"
   target_group_port  = 80
   target_group_protocol = "HTTP"
